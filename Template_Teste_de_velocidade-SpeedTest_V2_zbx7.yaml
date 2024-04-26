@@ -1,0 +1,219 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+    - uuid: b8d86248c1fb4e2093003ebec5a097db
+      name: Templates/Internet
+  templates:
+    - uuid: 36d43706e9f94d8ebab4d110184111e2
+      template: 'Teste de velocidade - SpeedTest'
+      name: 'Teste de velocidade - SpeedTest'
+      groups:
+        - name: Templates/Internet
+      items:
+        - uuid: 651f66b376b14af484205eb7f1b9c6ab
+          name: 'Dados recebidos'
+          type: DEPENDENT
+          key: bytes_received
+          delay: '0'
+          history: 90d
+          value_type: FLOAT
+          units: B
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $..bytes_received
+            - type: STR_REPLACE
+              parameters:
+                - '['
+                - ''
+            - type: STR_REPLACE
+              parameters:
+                - ']'
+                - ''
+          master_item:
+            key: 'vfs.file.contents[/tmp/speed.log,]'
+          tags:
+            - tag: Application
+              value: bytes_received
+        - uuid: b70a15c7c1c94d51b9110a74729c5e1f
+          name: 'Dados enviados'
+          type: DEPENDENT
+          key: bytes_sent
+          delay: '0'
+          history: 90d
+          value_type: FLOAT
+          units: B
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $..bytes_sent
+            - type: STR_REPLACE
+              parameters:
+                - '['
+                - ''
+            - type: STR_REPLACE
+              parameters:
+                - ']'
+                - ''
+          master_item:
+            key: 'vfs.file.contents[/tmp/speed.log,]'
+          tags:
+            - tag: Application
+              value: bytes_sent
+        - uuid: ef297cea05da4fc08a1d98856d42b73e
+          name: Download
+          type: DEPENDENT
+          key: download
+          delay: '0'
+          history: 90d
+          value_type: FLOAT
+          units: B
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $..download
+            - type: STR_REPLACE
+              parameters:
+                - '['
+                - ''
+            - type: STR_REPLACE
+              parameters:
+                - ']'
+                - ''
+          master_item:
+            key: 'vfs.file.contents[/tmp/speed.log,]'
+          tags:
+            - tag: Application
+              value: download
+        - uuid: 2dc7f2e4368f46bdbdab7f71797f89dc
+          name: Ping
+          type: DEPENDENT
+          key: ping
+          delay: '0'
+          history: 90d
+          value_type: FLOAT
+          units: ms
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $..ping
+            - type: STR_REPLACE
+              parameters:
+                - '['
+                - ''
+            - type: STR_REPLACE
+              parameters:
+                - ']'
+                - ''
+          master_item:
+            key: 'vfs.file.contents[/tmp/speed.log,]'
+          tags:
+            - tag: Application
+              value: ping
+        - uuid: 8bf9902a64724668a5cea64cd60b98d4
+          name: 'Cidade do provedor'
+          type: DEPENDENT
+          key: server.country
+          delay: '0'
+          history: 90d
+          trends: '0'
+          value_type: LOG
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $..server.country
+            - type: STR_REPLACE
+              parameters:
+                - '["'
+                - ''
+            - type: STR_REPLACE
+              parameters:
+                - '"]'
+                - ''
+          master_item:
+            key: 'vfs.file.contents[/tmp/speed.log,]'
+          tags:
+            - tag: Application
+              value: 'Cidade provedor'
+        - uuid: 02f822b12e1e43acaa3e984e80065e32
+          name: 'Latencia do provedor'
+          type: DEPENDENT
+          key: server.latency
+          delay: '0'
+          history: 90d
+          value_type: FLOAT
+          units: '%'
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $..server.latency
+            - type: STR_REPLACE
+              parameters:
+                - '['
+                - ''
+            - type: STR_REPLACE
+              parameters:
+                - ']'
+                - ''
+          master_item:
+            key: 'vfs.file.contents[/tmp/speed.log,]'
+          tags:
+            - tag: Application
+              value: 'Latencia provedor'
+        - uuid: 9f40cc4c1f2d4fc4a2b88e0ae6400417
+          name: Provedor
+          type: DEPENDENT
+          key: sponsor
+          delay: '0'
+          history: 90d
+          trends: '0'
+          value_type: LOG
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $..server.sponsor
+            - type: STR_REPLACE
+              parameters:
+                - '["'
+                - ''
+            - type: STR_REPLACE
+              parameters:
+                - '"]'
+                - ''
+          master_item:
+            key: 'vfs.file.contents[/tmp/speed.log,]'
+          tags:
+            - tag: Application
+              value: Provedor
+        - uuid: d9f9621a74e540d592addbbe8f2772f1
+          name: Upload
+          type: DEPENDENT
+          key: upload
+          delay: '0'
+          history: 90d
+          value_type: FLOAT
+          units: B
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $..upload
+            - type: STR_REPLACE
+              parameters:
+                - '['
+                - ''
+            - type: STR_REPLACE
+              parameters:
+                - ']'
+                - ''
+          master_item:
+            key: 'vfs.file.contents[/tmp/speed.log,]'
+          tags:
+            - tag: Application
+              value: upload
+        - uuid: cccb9fcda73548c5b277d838cc7fea8e
+          name: 'Full get data'
+          key: 'vfs.file.contents[/tmp/speed.log,]'
+          delay: 20m
+          history: '0'
+          trends: '0'
+          value_type: TEXT
